@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow:
+
+Sitemap: https://animesh-punetha.vercel.app/sitemap.xml
