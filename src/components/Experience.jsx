@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Server, Database, X } from "lucide-react";
+import { Briefcase, Calendar, ChevronRight, BarChart2 } from "lucide-react";
 
 const experiences = [
   {
     company: "Aankalan India",
     role: "Junior Software Developer",
     period: "Jan 2026 – Feb 2026",
-    icon: Server,
     overview:
       "Architected a highly concurrent real-time chat engine supporting 5000+ users.",
     metrics: ["5000+ concurrent users", "O(1) latency mapping", "Redis distributed scaling"],
@@ -23,7 +22,6 @@ const experiences = [
     company: "Team1 Consulting",
     role: "Software Developer Intern",
     period: "May 2025 – Jun 2025",
-    icon: Database,
     overview:
       "Developed scalable CRM platform improving business tracking efficiency by 80%.",
     metrics: ["80% efficiency boost", "95% manual reduction", "1000+ users"],
@@ -39,149 +37,128 @@ const experiences = [
 ];
 
 export default function Experience() {
-  const [active, setActive] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const activeExp = experiences[activeTab];
 
   return (
-    <section id="experience" className="py-20 md:py-28 px-4 md:px-6 relative z-10 min-h-screen">
-      <div className="max-w-6xl mx-auto relative">
+    <section id="experience" className="py-16 md:py-24 px-4 md:px-8 max-w-6xl mx-auto relative z-10">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 text-left"
+      >
+        <span className="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+          experience.json
+        </span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 tracking-tight mt-3">
+          Work History
+        </h2>
+        <div className="h-1 w-20 bg-indigo-600 mt-3 rounded-full"></div>
+      </motion.div>
 
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white flex flex-wrap items-center gap-2 md:gap-4">
-            <span className="text-matrix font-mono drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]">
-              &gt;
-            </span>
-            <span className="font-mono tracking-wide">
-              runtime_experience.sh
-            </span>
-          </h2>
-          <div className="h-[3px] w-24 mt-4 rounded-full bg-gradient-to-r from-matrix to-transparent shadow-[0_0_10px_rgba(16,185,129,0.7)]"></div>
-        </motion.div>
-
-        {/* GRID */}
-        <div className="grid md:grid-cols-2 gap-6 relative">
-
-          {experiences.map((exp, index) => {
-            const Icon = exp.icon;
-
-            return (
-              <motion.div
-                key={index}
-                whileHover={{ y: -6 }}
-                onClick={() => setActive(exp)}
-                className="cursor-pointer backdrop-blur-xl border border-white/10 bg-white/[0.03] p-8 rounded-2xl relative overflow-hidden group hover:shadow-[0_0_40px_rgba(16,185,129,0.15)] transition"
-              >
-                {/* BACKGROUND ICON */}
-                <Icon
-                  size={180}
-                  className="absolute -top-10 -right-10 text-white/5 group-hover:text-white/10 transition"
-                />
-
-                <div className="relative z-10">
-
-                  {/* COMPANY */}
-                  <h3 className="text-2xl font-bold text-white mb-1">
-                    {exp.company}
-                  </h3>
-
-                  <div className="text-sm text-matrix font-mono">
-                    {exp.role}
-                  </div>
-
-                  <div className="text-xs text-slate-500 mb-4">
-                    {exp.period}
-                  </div>
-
-                  {/* OVERVIEW */}
-                  <p className="text-slate-300 text-sm mb-6">
-                    {exp.overview}
-                  </p>
-
-                  {/* METRICS */}
-                  <div className="flex flex-wrap gap-2">
-                    {exp.metrics.map((m, i) => (
-                      <span
-                        key={i}
-                        className="text-xs font-mono text-cobalt bg-cobalt/10 border border-cobalt/20 px-3 py-1 rounded-full"
-                      >
-                        {m}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="text-xs text-slate-500 mt-6 font-mono">
-                    click to inspect →
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+      {/* Main Switcher Box */}
+      <div className="bg-white border border-zinc-200 rounded-2xl shadow-[0_4px_30px_-5px_rgba(0,0,0,0.03)] p-6 md:p-8 flex flex-col md:flex-row gap-8 items-stretch">
+        
+        {/* Tab Controls (Left side) */}
+        <div className="flex md:flex-col gap-2 shrink-0 md:w-56 overflow-x-auto pb-3 md:pb-0 border-b md:border-b-0 md:border-r border-zinc-150 pr-0 md:pr-4 scrollbar-hide">
+          {experiences.map((exp, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveTab(idx)}
+              className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all text-left whitespace-nowrap flex items-center gap-2.5 ${
+                activeTab === idx
+                  ? "bg-indigo-50 text-indigo-700 border-l-4 border-l-indigo-600 pl-3.5 shadow-sm"
+                  : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 border-l-4 border-l-transparent pl-3.5"
+              }`}
+            >
+              <Briefcase size={15} />
+              {exp.company}
+            </button>
+          ))}
         </div>
 
-        {/* MODAL EXPERIENCE VIEW */}
-        <AnimatePresence>
-          {active && (
-            <div className="fixed inset-4 md:inset-x-0 bottom-0 md:top-0 z-50 flex items-center justify-center p-0 md:p-6 pointer-events-none">
-              <motion.div
-                initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="bg-black/95 backdrop-blur-2xl w-full max-w-4xl max-h-[90vh] md:max-h-[85vh] rounded-2xl md:rounded-3xl border border-white/10 flex flex-col overflow-hidden pointer-events-auto shadow-[0_0_50px_rgba(0,0,0,0.8)]"
-              >
-                {/* MODAL HEADER */}
-                <div className="p-5 md:p-8 flex items-center justify-between border-b border-white/5 bg-white/[0.02]">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white">
-                    {active.company}
-                  </h3>
-                  <button
-                    onClick={() => setActive(null)}
-                    className="p-2 bg-white/5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+        {/* Details Display (Right side) */}
+        <div className="flex-1 min-h-[300px] flex flex-col justify-between">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-6"
+            >
+              {/* Role Title & Timeframe */}
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-zinc-950">
+                  {activeExp.role}
+                </h3>
+                <div className="flex flex-wrap items-center gap-3 text-xs font-mono font-semibold text-zinc-400 mt-1.5">
+                  <span className="text-indigo-600 font-bold">{activeExp.company}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Calendar size={13} />
+                    {activeExp.period}
+                  </span>
+                </div>
+              </div>
+
+              {/* Overview Sentence */}
+              <p className="text-zinc-600 text-sm md:text-base leading-relaxed bg-zinc-50 p-4 rounded-xl border border-zinc-100 font-light">
+                {activeExp.overview}
+              </p>
+
+              {/* Performance Metrics Row */}
+              <div>
+                <h4 className="text-xs uppercase font-mono tracking-widest text-zinc-400 font-bold mb-2.5 flex items-center gap-1.5">
+                  <BarChart2 size={13} className="text-indigo-500" /> Key Impact Metrics
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {activeExp.metrics.map((m, i) => (
+                    <span
+                      key={i}
+                      className="text-xs font-mono font-semibold text-cyan-800 bg-cyan-50 border border-cyan-100 px-3 py-1 rounded-full shadow-sm"
+                    >
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detailed Points */}
+              <div className="space-y-3 pt-2">
+                <h4 className="text-xs uppercase font-mono tracking-widest text-zinc-400 font-bold mb-1">
+                  Deliverables & Responsibilities
+                </h4>
+                {activeExp.details.map((d, i) => (
+                  <div
+                    key={i}
+                    className="flex gap-2.5 text-zinc-600 text-sm leading-relaxed text-left"
                   >
-                    <X size={20} />
-                  </button>
-                </div>
-
-                {/* MODAL BODY */}
-                <div className="p-5 md:p-8 overflow-y-auto">
-                  <div className="text-matrix font-mono text-sm mb-6">
-                    {active.role} • {active.period}
+                    <ChevronRight size={16} className="text-indigo-600 shrink-0 mt-0.5" />
+                    <span>{d}</span>
                   </div>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
-                  {/* DETAILS */}
-                  <div className="space-y-3 mb-8">
-                    {active.details.map((d, i) => (
-                      <div
-                        key={i}
-                        className="border-l-2 border-matrix pl-4 text-slate-300 text-sm md:text-base leading-relaxed"
-                      >
-                        {d}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* TECH STACK */}
-                  <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
-                    {active.tags.map(tag => (
-                      <span
-                        key={tag}
-                        className="text-xs font-mono text-matrix bg-matrix/10 border border-matrix/20 px-3 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+          {/* Tech Badges footer */}
+          <div className="flex flex-wrap gap-2 pt-6 mt-6 border-t border-zinc-100">
+            {activeExp.tags.map(tag => (
+              <span
+                key={tag}
+                className="text-xs font-mono font-semibold text-zinc-600 bg-zinc-100 border border-zinc-200/50 px-2.5 py-1 rounded-md"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
 
       </div>
     </section>

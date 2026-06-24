@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Terminal, Copy, CheckCircle2 } from "lucide-react";
+import { FileText, Copy, CheckCircle2 } from "lucide-react";
 
 const content = [
   "---",
@@ -19,8 +19,6 @@ const content = [
 const About = () => {
   const [copied, setCopied] = useState(false);
 
-  const lines = useMemo(() => content.length, []);
-
   const handleCopy = () => {
     navigator.clipboard.writeText(content.join("\n"));
     setCopied(true);
@@ -28,118 +26,113 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="py-20 md:py-28 px-4 md:px-6 relative z-10">
-      <div className="max-w-5xl mx-auto">
+    <section id="about" className="py-16 md:py-24 px-4 md:px-8 max-w-5xl mx-auto relative z-10">
+      {/* Section Title */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-10 text-left"
+      >
+        <span className="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+          profile.yaml
+        </span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 tracking-tight mt-3">
+          About Me
+        </h2>
+        <div className="h-1 w-20 bg-indigo-600 mt-3 rounded-full"></div>
+      </motion.div>
 
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white flex flex-wrap items-center gap-2 md:gap-4">
-            <span className="text-matrix font-mono drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]">
-              &gt;
-            </span>
-            <span className="font-mono tracking-wide">
-              cat about_me.md
-            </span>
-          </h2>
-          <div className="h-[3px] w-24 mt-4 rounded-full bg-gradient-to-r from-matrix to-transparent shadow-[0_0_10px_rgba(16,185,129,0.7)]"></div>
-        </motion.div>
+      {/* Code Editor Mockup */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="rounded-2xl overflow-hidden border border-zinc-200 bg-white shadow-[0_4px_30px_-5px_rgba(0,0,0,0.05)] group"
+      >
+        {/* Editor Header */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-zinc-200 bg-zinc-50">
+          {/* Mac Window Controls */}
+          <div className="flex gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-400/90 shadow-sm"></div>
+            <div className="w-3 h-3 rounded-full bg-amber-400/90 shadow-sm"></div>
+            <div className="w-3 h-3 rounded-full bg-green-400/90 shadow-sm"></div>
+          </div>
 
-        {/* Code Editor */}
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="rounded-xl overflow-hidden backdrop-blur-lg border border-white/10 bg-white/[0.03] shadow-[0_0_40px_rgba(0,0,0,0.6)] group"
-        >
+          {/* File Name */}
+          <div className="text-zinc-500 font-mono text-xs flex items-center gap-1.5 font-semibold">
+            <FileText size={14} className="text-indigo-500" />
+            about_me.md
+          </div>
 
-          {/* Header */}
-          <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-black/70">
-            
-            {/* Mac buttons */}
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.7)]"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_6px_rgba(234,179,8,0.7)]"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.7)]"></div>
-            </div>
+          {/* Copy Button */}
+          <button
+            onClick={handleCopy}
+            className="relative text-zinc-400 hover:text-zinc-700 transition p-1 rounded-lg hover:bg-zinc-100/60"
+            title="Copy content"
+          >
+            {copied ? (
+              <CheckCircle2 size={16} className="text-indigo-600" />
+            ) : (
+              <Copy size={16} />
+            )}
 
-            {/* File name */}
-            <div className="text-slate-400 font-mono text-sm flex items-center gap-2">
-              <Terminal size={14} className="text-matrix" />
-              about_me.md
-            </div>
+            {copied && (
+              <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-indigo-600 font-mono font-bold whitespace-nowrap bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 rounded shadow-sm">
+                copied!
+              </span>
+            )}
+          </button>
+        </div>
 
-            {/* Copy button */}
-            <button
-              onClick={handleCopy}
-              className="relative text-slate-400 hover:text-white transition"
-            >
-              {copied ? (
-                <CheckCircle2 size={18} className="text-matrix animate-pulse" />
-              ) : (
-                <Copy size={18} />
-              )}
+        {/* Editor Body */}
+        <div className="font-mono text-xs sm:text-sm md:text-[14px] bg-white py-6 flex flex-col gap-1.5 overflow-x-auto">
+          {content.map((line, i) => {
+            let lineContent = <span className="text-zinc-600 whitespace-pre-wrap">{line}</span>;
 
-              {copied && (
-                <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-matrix font-mono">
-                  copied
+            if (line.startsWith("# ")) {
+              lineContent = <span className="text-zinc-950 font-sans font-bold text-base sm:text-lg block mt-2 whitespace-pre-wrap">{line}</span>;
+            } else if (line.startsWith("## ")) {
+              lineContent = <span className="text-zinc-900 font-sans font-bold text-sm sm:text-base block mt-2 whitespace-pre-wrap">{line}</span>;
+            } else if (line.includes(":")) {
+              const colonIndex = line.indexOf(":");
+              const key = line.slice(0, colonIndex);
+              const val = line.slice(colonIndex);
+              lineContent = (
+                <span className="whitespace-pre-wrap">
+                  <span className="text-indigo-600 font-semibold">{key}</span>
+                  <span className="text-cyan-700">{val}</span>
                 </span>
-              )}
-            </button>
-          </div>
-
-          {/* Editor Body */}
-          <div className="font-mono text-xs sm:text-sm md:text-[15px] bg-black/20 py-4 sm:py-6 flex flex-col gap-1">
-
-            {content.map((line, i) => {
-              let lineContent = <div className="whitespace-pre-wrap break-words">{line}</div>;
-
-              if (line.startsWith("# ")) {
-                lineContent = <div className="text-white font-semibold whitespace-pre-wrap break-words">{line}</div>;
-              } else if (line.startsWith("## ")) {
-                lineContent = <div className="text-white font-semibold opacity-90 whitespace-pre-wrap break-words">{line}</div>;
-              } else if (line.includes(":")) {
-                lineContent = (
-                  <div className="whitespace-pre-wrap break-words">
-                    <span className="text-cobalt">{line.split(":")[0]}:</span>{" "}
-                    <span className="text-matrix">{line.split(":")[1]}</span>
-                  </div>
-                );
-              } else if (line === "---") {
-                lineContent = <div className="text-slate-500 whitespace-pre-wrap break-words">---</div>;
-              }
-
-              return (
-                <div key={i} className="flex leading-relaxed">
-                  {/* Line Number */}
-                  <div className="text-slate-600 select-none text-right shrink-0 w-12 sm:w-16 pr-3 sm:pr-5 border-r border-white/10">
-                    {i + 1}
-                  </div>
-                  {/* Line Content */}
-                  <div className="text-slate-300 pl-4 sm:pl-6 pr-4 sm:pr-6 flex-1">
-                    {lineContent}
-                  </div>
-                </div>
               );
-            })}
+            } else if (line === "---") {
+              lineContent = <span className="text-zinc-400">---</span>;
+            }
 
-            {/* blinking cursor */}
-            <div className="flex mt-1">
-               <div className="shrink-0 w-12 sm:w-16 pr-3 sm:pr-5 border-r border-white/10"></div>
-               <div className="pl-4 sm:pl-6 pr-4 sm:pr-6 flex items-center">
-                 <span className="inline-block w-2.5 h-4 sm:h-5 bg-matrix animate-pulse"></span>
-               </div>
+            return (
+              <div key={i} className="flex leading-relaxed hover:bg-zinc-50/60 transition-colors">
+                {/* Line Number */}
+                <div className="text-zinc-300 select-none text-right shrink-0 w-12 sm:w-16 pr-4 border-r border-zinc-100 font-medium">
+                  {i + 1}
+                </div>
+                {/* Line Content */}
+                <div className="pl-4 sm:pl-6 pr-4 sm:pr-6 flex-1 text-left">
+                  {lineContent}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Blinking Cursor line */}
+          <div className="flex mt-1">
+            <div className="shrink-0 w-12 sm:w-16 pr-4 border-r border-zinc-100"></div>
+            <div className="pl-4 sm:pl-6 pr-4 sm:pr-6 flex items-center">
+              <span className="inline-block w-2 h-4 bg-indigo-600 animate-pulse rounded-sm"></span>
             </div>
-
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 };

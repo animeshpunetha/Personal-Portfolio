@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Hero from './components/Hero';
 import About from './components/About';
 import Analytics from './components/Analytics';
@@ -7,130 +7,88 @@ import Projects from './components/Projects';
 import TechStack from './components/TechStack';
 import Footer from './components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Power } from 'lucide-react';
-import { useCyberSound } from './hooks/useCyberSound';
+import { Menu, X } from 'lucide-react';
 
 function App() {
-  const [isInitialized, setIsInitialized] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { playBootSound, playClickSound } = useCyberSound();
-
-  const handleInitialize = () => {
-    playClickSound();
-    playBootSound();
-    setIsInitialized(true);
-  };
-
-  // Prevent scroll while boot screen is active
-  useEffect(() => {
-    document.body.style.overflow = isInitialized ? '' : 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, [isInitialized]);
 
   return (
-    <div className="bg-obsidian min-h-screen text-slate-300 font-sans selection:bg-matrix/30 selection:text-white overflow-x-hidden">
+    <div className="bg-[#fafafa] min-h-screen text-zinc-600 font-sans selection:bg-indigo-100 selection:text-indigo-900 overflow-x-hidden relative">
+      {/* Background Subtle Grid Pattern */}
       <div className="bg-grid"></div>
 
-      {/* ── BOOT SCREEN OVERLAY ── sits on top; content below is always in DOM for crawlers */}
-      <AnimatePresence>
-        {!isInitialized && (
-          <motion.div
-            key="boot"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.6, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[100] bg-obsidian flex items-center justify-center overflow-hidden"
-            aria-hidden="true"
+      {/* Floating Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200/50 p-4 flex justify-between items-center px-4 md:px-8 max-w-7xl mx-auto rounded-b-2xl shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] mt-0 md:mt-2">
+
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex gap-8 text-sm font-medium">
+          <a href="#about" className="text-zinc-600 hover:text-indigo-600 transition-colors">about</a>
+          <a href="#analytics" className="text-zinc-600 hover:text-indigo-600 transition-colors">metrics</a>
+          <a href="#experience" className="text-zinc-600 hover:text-indigo-600 transition-colors">experience</a>
+          <a href="#projects" className="text-zinc-600 hover:text-indigo-600 transition-colors">projects</a>
+          <a href="#techstack" className="text-zinc-600 hover:text-indigo-600 transition-colors">skills</a>
+        </nav>
+
+        {/* Contact/Resume Button (CTA in Navbar) */}
+        <div className="hidden md:block">
+          <a 
+            href="mailto:animesh.punetha01@gmail.com"
+            className="px-4 py-2 bg-zinc-950 text-white rounded-lg text-xs font-semibold hover:bg-zinc-800 transition-all shadow-sm"
           >
-            {/* Grid bg on boot screen */}
-            <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+            Get in touch
+          </a>
+        </div>
 
-            {/* Subtle radial glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(16,185,129,0.06)_0%,_transparent_70%)] pointer-events-none" />
+        {/* Mobile Nav Toggle */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-zinc-600 hover:text-zinc-950 transition-colors p-1 ml-auto"
+          aria-label="Toggle navigation menu"
+        >
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </header>
 
-            <motion.button
-              onClick={handleInitialize}
-              whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(16,185,129,0.4)' }}
-              whileTap={{ scale: 0.95 }}
-              className="relative z-10 flex flex-col items-center gap-4 bg-black/50 border border-matrix/40 text-matrix p-12 sm:p-16 rounded-2xl backdrop-blur-xl"
+      {/* Mobile Nav Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-[65px] left-4 right-4 bg-white/95 backdrop-blur-xl border border-zinc-200/80 z-40 p-6 flex flex-col gap-4 rounded-2xl shadow-xl md:hidden"
+          >
+            <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-zinc-800 font-semibold hover:text-indigo-600 transition-colors border-b border-zinc-100 pb-2">about</a>
+            <a href="#analytics" onClick={() => setIsMobileMenuOpen(false)} className="text-zinc-800 font-semibold hover:text-indigo-600 transition-colors border-b border-zinc-100 pb-2">metrics</a>
+            <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="text-zinc-800 font-semibold hover:text-indigo-600 transition-colors border-b border-zinc-100 pb-2">experience</a>
+            <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="text-zinc-800 font-semibold hover:text-indigo-600 transition-colors border-b border-zinc-100 pb-2">projects</a>
+            <a href="#techstack" onClick={() => setIsMobileMenuOpen(false)} className="text-zinc-800 font-semibold hover:text-indigo-600 transition-colors pb-2">skills</a>
+            <a 
+              href="mailto:animesh.punetha01@gmail.com"
+              className="mt-2 w-full text-center py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 transition"
             >
-              {/* Outer ring ping animation */}
-              <span className="absolute inset-0 rounded-2xl border border-matrix/20 animate-ping opacity-30 pointer-events-none" />
-
-              <Power size={52} className="animate-pulse drop-shadow-[0_0_14px_rgba(16,185,129,0.9)]" />
-              <span className="font-mono text-xl sm:text-2xl tracking-widest uppercase mt-4">
-                Initialize System
-              </span>
-              <span className="font-mono text-xs text-matrix/50">Click to boot session</span>
-            </motion.button>
+              Get in touch
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── MAIN CONTENT ── always rendered in DOM (crawlable); fades in for users after boot */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isInitialized ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
-        {/* Fixed Navigation */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-md border-b border-white/5 p-4 flex justify-between items-center px-4 md:px-6">
-          <div
-            className="font-mono text-matrix font-bold tracking-tighter drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] cursor-pointer text-lg"
-            onClick={() => window.scrollTo(0, 0)}
-          >
-            AP<span className="animate-pulse">_</span>
-          </div>
+      {/* Page Sections */}
+      <main className="pt-24">
+        <Hero />
+        <About />
+        <Analytics />
+        <Experience />
+        <Projects />
+        <TechStack />
+      </main>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-6 font-mono text-xs">
-            <a href="#about" className="text-slate-400 hover:text-white transition-colors">/about</a>
-            <a href="#analytics" className="text-slate-400 hover:text-white transition-colors">/analytics</a>
-            <a href="#experience" className="text-slate-400 hover:text-white transition-colors">/experience</a>
-            <a href="#projects" className="text-slate-400 hover:text-white transition-colors">/projects</a>
-            <a href="#techstack" className="text-slate-400 hover:text-white transition-colors">/tech</a>
-          </nav>
-
-          {/* Mobile Nav Toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-slate-300 hover:text-white transition-colors"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </header>
-
-        {/* Mobile Nav Dropdown */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="fixed top-[60px] left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-white/10 z-40 p-6 flex flex-col gap-6 font-mono text-sm md:hidden shadow-2xl"
-            >
-              <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-white transition-colors border-b border-white/5 pb-4">/about</a>
-              <a href="#analytics" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-white transition-colors border-b border-white/5 pb-4">/analytics</a>
-              <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-white transition-colors border-b border-white/5 pb-4">/experience</a>
-              <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-white transition-colors border-b border-white/5 pb-4">/projects</a>
-              <a href="#techstack" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-white transition-colors pb-2">/tech</a>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <main>
-          <Hero />
-          <About />
-          <Analytics />
-          <Experience />
-          <Projects />
-          <TechStack />
-        </main>
-
-        <Footer />
-      </motion.div>
+      <Footer />
     </div>
   );
 }
 
 export default App;
+

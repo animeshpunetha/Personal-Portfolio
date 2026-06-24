@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { FolderGit2, Github, Activity, ChevronLeft, ChevronRight } from "lucide-react";
-import StarfieldBackground from "./StarfieldBackground";
+import { Folder, Github, Activity, ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
@@ -61,162 +60,103 @@ const projects = [
 ];
 
 export default function Projects() {
-
-  const scrollRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  const handleWheel = (e) => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft += e.deltaY;
-    }
-  };
-
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    const progress = el.scrollLeft / (el.scrollWidth - el.clientWidth);
-    setScrollProgress(progress * 100);
-  };
-
-  const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -350, behavior: "smooth" });
-  };
-
-  const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 350, behavior: "smooth" });
-  };
-
   return (
-    <section id="projects" className="py-20 md:py-28 px-4 md:px-6 relative overflow-hidden">
+    <section id="projects" className="py-16 md:py-24 px-4 md:px-8 max-w-6xl mx-auto relative overflow-hidden">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 text-left"
+      >
+        <span className="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+          projects.json
+        </span>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 tracking-tight mt-3">
+          Featured Work
+        </h2>
+        <div className="h-1 w-20 bg-indigo-600 mt-3 rounded-full"></div>
+      </motion.div>
 
-      {/* Starfield + Code Token Background */}
-      <StarfieldBackground />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16"
-        >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white flex flex-wrap items-center gap-2 md:gap-4">
-            <span className="text-cobalt font-mono drop-shadow-[0_0_10px_rgba(37,99,235,0.9)]">
-              &gt;
-            </span>
-            <span className="font-mono tracking-wide">
-              ls -la ./project_repository
-            </span>
-          </h2>
-          <div className="h-[3px] w-24 mt-4 rounded-full bg-gradient-to-r from-cobalt to-transparent shadow-[0_0_10px_rgba(37,99,235,0.7)]"></div>
-        </motion.div>
-
-        {/* Scroll Controls */}
-        <div className="flex justify-end gap-4 mb-6">
-
-          <button
-            onClick={scrollLeft}
-            className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition"
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
+            whileHover={{ y: -5 }}
+            className="flex"
           >
-            <ChevronLeft size={20} />
-          </button>
-
-          <button
-            onClick={scrollRight}
-            className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition"
-          >
-            <ChevronRight size={20} />
-          </button>
-
-        </div>
-
-        {/* Scroll Container */}
-        <div
-          ref={scrollRef}
-          onWheel={handleWheel}
-          onScroll={handleScroll}
-          className="flex gap-4 md:gap-10 overflow-x-auto overflow-y-hidden pb-10 snap-x snap-mandatory scroll-smooth scrollbar-hide items-stretch"
-        >
-
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
-              className="min-w-[300px] max-w-[300px] md:min-w-[340px] md:max-w-[340px] shrink-0 snap-center group relative"
-            >
-
-              <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-white/20 to-transparent h-full">
-
-                <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full flex flex-col transition-all duration-500 group-hover:border-blue-400/40">
-
-                  {/* Header */}
-                  <div className="flex justify-between mb-6">
-                    <FolderGit2 className="text-white/70" size={30} />
-
-                    {project.github && (
-                      <a href={project.github} target="_blank">
-                        <Github
-                          size={20}
-                          className="text-white/50 hover:text-white transition"
-                        />
-                      </a>
-                    )}
+            <div className="bg-white border border-zinc-200 rounded-2xl p-6 md:p-7 flex flex-col justify-between w-full hover:shadow-md transition-all duration-300 hover:border-indigo-300/80 group shadow-sm">
+              <div>
+                {/* Card Icon Header */}
+                <div className="flex justify-between items-center mb-5">
+                  <div className="p-2.5 bg-zinc-50 border border-zinc-100 text-zinc-500 rounded-xl group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                    <Folder size={20} />
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {project.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-slate-400 text-sm mb-6 flex-grow">
-                    {project.description}
-                  </p>
-
-                  {/* Tech */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech.map((t, i) => (
-                      <span
-                        key={i}
-                        className="text-xs font-mono text-white/70 bg-white/5 px-2 py-1 rounded"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Metric */}
-                  <div className="border-t border-white/10 pt-4 flex items-center gap-3">
-                    <Activity className="text-emerald-400" size={18} />
-
-                    <div>
-                      <div className="text-xl font-bold text-white">
-                        {project.metricValue}
-                      </div>
-                      <div className="text-xs text-slate-400">
-                        {project.metricLabel}
-                      </div>
-                    </div>
-                  </div>
-
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-1.5 text-zinc-400 hover:text-zinc-900 rounded-lg hover:bg-zinc-50 transition"
+                      title="View Source on GitHub"
+                    >
+                      <Github size={18} />
+                    </a>
+                  )}
                 </div>
+
+                {/* Title */}
+                <h3 className="text-lg md:text-xl font-bold text-zinc-950 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
+                  {project.title}
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 translate-y-0.5 group-hover:-translate-y-0 group-hover:translate-x-0.5 transition-all text-indigo-500" />
+                </h3>
+
+                {/* Description */}
+                <p className="text-zinc-500 text-sm leading-relaxed mt-2.5 mb-5 font-light">
+                  {project.description}
+                </p>
               </div>
 
-            </motion.div>
-          ))}
+              <div>
+                {/* Tech Pills */}
+                <div className="flex flex-wrap gap-1.5 mb-5">
+                  {project.tech.map((t, i) => (
+                    <span
+                      key={i}
+                      className="text-[11px] font-mono font-semibold text-zinc-500 bg-zinc-100 border border-zinc-200/40 px-2 py-0.5 rounded"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
 
-        </div>
+                {/* Performance Metric Bar */}
+                <div className="border-t border-zinc-100 pt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-zinc-400">
+                    <Activity size={14} className="text-cyan-500" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Performance</span>
+                  </div>
 
-        {/* Custom Progress Bar */}
-        <div className="mt-6 h-[4px] bg-white/10 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
-            style={{ width: `${scrollProgress}%` }}
-          />
-        </div>
-
+                  <div className="text-right">
+                    <span className="text-sm font-mono font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded">
+                      {project.metricValue}
+                    </span>
+                    <span className="block text-[9px] font-mono text-zinc-400 uppercase font-semibold mt-1">
+                      {project.metricLabel}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

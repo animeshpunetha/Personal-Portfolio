@@ -1,206 +1,124 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  Activity,
-  Code2,
-  BrainCircuit,
-  Trophy,
-  Target,
-} from "lucide-react";
+import { Zap, Code2, Trophy } from "lucide-react";
 import CountUp from "react-countup";
 
-const tags = [
-  "Graphs/Trees",
-  "Dynamic Programming",
-  "Segment Trees",
-  "Combinatorics",
+const distributions = [
+  { topic: "Greedy & Search", value: 90, color: "from-indigo-500 to-indigo-600" },
+  { topic: "Graphs & Trees", value: 85, color: "from-indigo-500 to-cyan-500" },
+  { topic: "System Design & Caching", value: 80, color: "from-cyan-500 to-indigo-500" },
+  { topic: "Dynamic Programming", value: 75, color: "from-cyan-500 to-cyan-600" },
 ];
-
-const bars = [40, 60, 45, 80, 50, 90, 75, 100, 85, 120];
 
 const Analytics = () => {
   return (
     <section
       id="analytics"
-      className="py-20 md:py-28 px-4 md:px-6 relative z-10 w-full bg-black/40 border-y border-white/5"
+      className="py-16 md:py-24 px-4 md:px-8 max-w-6xl mx-auto relative z-10 w-full"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Section Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 text-left flex flex-col md:flex-row md:items-end justify-between gap-4 max-w-3xl mx-auto"
+      >
+        <div>
+          <span className="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+            metrics.json
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 tracking-tight mt-3">
+            Core Engineering Metrics
+          </h2>
+          <div className="h-1 w-20 bg-indigo-600 mt-3 rounded-full"></div>
+        </div>
 
-        {/* Header */}
+        <div className="flex items-center gap-4 text-xs font-mono text-zinc-500">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="font-semibold text-zinc-700">STATUS: OPTIMAL</span>
+          </div>
+          <span className="text-zinc-300">|</span>
+          <div className="flex items-center gap-1">
+            <Zap size={14} className="text-indigo-600" />
+            <span>SYS_EFFICIENCY: 98.4%</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Centered Single Metrics Panel with Whitespace */}
+      <div className="max-w-3xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-center justify-between gap-6"
+          transition={{ duration: 0.5 }}
+          className="bg-white border border-zinc-200/80 rounded-3xl p-6 md:p-8 hover:shadow-lg hover:border-indigo-200/80 transition-all duration-300 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.015)] group"
         >
           <div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white flex flex-wrap items-center gap-2 md:gap-4">
-              <span className="text-purple-400 font-mono drop-shadow-[0_0_10px_rgba(168,85,247,0.9)]">
-                &gt;
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-4 mb-6">
+              <div className="flex items-center gap-2.5 text-indigo-600 font-mono text-xs uppercase tracking-wider font-bold">
+                <Code2 size={18} />
+                Algorithms & Problem Solving
+              </div>
+              <span className="text-[10px] font-mono bg-zinc-50 border border-zinc-200 text-zinc-400 px-2 py-0.5 rounded-md font-semibold">
+                sys_CP
               </span>
-              <span className="font-mono tracking-wide">
-                system_metrics.exe
-              </span>
-            </h2>
-            <div className="h-[3px] w-24 mt-4 rounded-full bg-gradient-to-r from-purple-400 to-transparent shadow-[0_0_10px_rgba(168,85,247,0.7)]"></div>
-          </div>
-
-          <div className="hidden md:flex items-center gap-6 text-xs font-mono">
-            <div className="flex items-center gap-2 text-matrix">
-              <div className="w-2 h-2 rounded-full bg-matrix animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.9)]"></div>
-              STATUS: OPTIMAL
             </div>
 
-            <div className="flex items-center gap-2 text-cobalt">
-              <Activity size={14} /> SYS_LOAD: 24%
+            <div className="grid grid-cols-2 gap-6 mb-8">
+              {/* Stat 1 */}
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-bold block mb-1">
+                  Problems Solved
+                </span>
+                <span className="text-4xl sm:text-5xl font-black text-zinc-950 font-mono tracking-tight flex items-baseline">
+                  <CountUp end={1300} duration={1.5} separator="," />
+                  <span className="text-indigo-600 text-2xl font-extrabold ml-0.5">+</span>
+                </span>
+              </div>
+
+              {/* Stat 2 */}
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-bold block mb-1">
+                  CodeChef Peak
+                </span>
+                <span className="text-4xl sm:text-5xl font-black text-zinc-950 font-mono tracking-tight flex items-baseline gap-1">
+                  <CountUp end={1632} duration={1.5} />
+                  <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 rounded font-sans tracking-normal self-center">3★</span>
+                </span>
+              </div>
             </div>
-          </div>
-        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-
-          {/* Main Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="md:col-span-8 relative glass-panel p-8 rounded-2xl overflow-hidden hover:shadow-[0_0_30px_rgba(168,85,247,0.25)] transition"
-          >
-
-            {/* Animated chart */}
-            <div className="absolute inset-0 opacity-10 flex items-end justify-between px-4 pb-4 pointer-events-none">
-              {bars.map((h, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ height: 0 }}
-                  whileInView={{ height: `${h}%` }}
-                  transition={{ duration: 1, delay: i * 0.05 }}
-                  className="w-[8%] bg-purple-400"
-                />
+            {/* Distribution bars */}
+            <div className="space-y-4">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 font-bold block mb-2">
+                Topic Solve Distribution
+              </span>
+              {distributions.map((d, i) => (
+                <div key={i} className="space-y-1">
+                  <div className="flex justify-between text-xs font-semibold text-zinc-700">
+                    <span>{d.topic}</span>
+                    <span className="font-mono text-zinc-500">{d.value}%</span>
+                  </div>
+                  <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden border border-zinc-200/20">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${d.value}%` }}
+                      transition={{ duration: 1.2, delay: i * 0.05, ease: "easeOut" }}
+                      className={`h-full bg-gradient-to-r ${d.color} rounded-full`}
+                    />
+                  </div>
+                </div>
               ))}
             </div>
+          </div>
 
-            <div className="relative z-10">
-
-              <div className="flex items-center gap-3 text-purple-400 mb-6 font-mono text-sm uppercase tracking-widest border-b border-white/10 pb-4">
-                <Code2 size={18} />
-                Competitive Programming Algorithms
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-10 sm:gap-16">
-
-                {/* Main stat */}
-                <div>
-                  <div className="text-slate-400 font-mono text-sm uppercase tracking-wider mb-1">
-                    Total Problems Solved
-                  </div>
-
-                  <div className="text-7xl font-bold text-white font-mono">
-                    <CountUp end={1300} duration={2} />+
-                  </div>
-                </div>
-
-                {/* Side metrics */}
-                <div className="flex flex-col justify-center gap-6">
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-300">
-                      <Trophy size={18} />
-                    </div>
-
-                    <div>
-                      <div className="text-xs font-mono text-slate-400">
-                        CodeChef Rating
-                      </div>
-                      <div className="text-xl font-bold font-mono text-white tracking-widest">
-                        1632 (Peak)
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-matrix/10 border border-matrix/20 flex items-center justify-center text-matrix">
-                      <Target size={18} />
-                    </div>
-
-                    <div>
-                      <div className="text-xs font-mono text-slate-400">
-                        Algorithmic Optimization
-                      </div>
-                      <div className="text-sm text-matrix">
-                        Advanced Data Structures
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Skill Tags */}
-              <div className="mt-8 flex flex-wrap gap-3">
-                {tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="text-xs font-mono text-purple-300 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full hover:bg-purple-500/20 transition cursor-default"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-            </div>
-          </motion.div>
-
-          {/* Side Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="md:col-span-4 glass-panel p-8 rounded-2xl hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition flex flex-col"
-          >
-            <div className="flex items-center gap-3 text-cobalt mb-6 font-mono text-sm uppercase tracking-widest border-b border-white/10 pb-4">
-              <BrainCircuit size={18} />
-              Theoretical Foundations
-            </div>
-
-            <p className="text-slate-300 text-sm leading-relaxed mb-8">
-              Solid grounding in foundational computer science principles,
-              enabling the translation of complex algorithmic theory into
-              scalable real-world system designs.
-            </p>
-
-            <div className="bg-black/40 border border-white/5 p-4 rounded-xl border-l-2 border-l-cobalt relative overflow-hidden mt-auto">
-
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-xs font-mono text-slate-400">
-                  Algorithmic Efficiency
-                </span>
-
-                <span className="text-xs font-mono text-cobalt bg-cobalt/10 px-2 py-0.5 rounded">
-                  O(1)
-                </span>
-              </div>
-
-              <div className="w-full bg-white/5 rounded-full h-1.5 mb-2">
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "95%" }}
-                  transition={{ duration: 1.5 }}
-                  className="bg-gradient-to-r from-cobalt to-matrix h-1.5 rounded-full"
-                />
-              </div>
-
-              <span className="text-[10px] uppercase tracking-widest text-slate-500">
-                Optimization Metric Focus
-              </span>
-            </div>
-
-          </motion.div>
-
-        </div>
+          <div className="flex items-center gap-1.5 text-[10px] uppercase font-mono tracking-widest text-zinc-400 font-bold border-t border-zinc-100 pt-5 mt-6">
+            <Trophy size={12} className="text-indigo-600" /> Peak CP percentile verification active
+          </div>
+        </motion.div>
       </div>
     </section>
   );
